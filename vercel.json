@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/", "destination": "/toefl-reading-mvp/index.html" },
+    { "source": "/(.*)", "destination": "/toefl-reading-mvp/$1" }
+  ]
+}
