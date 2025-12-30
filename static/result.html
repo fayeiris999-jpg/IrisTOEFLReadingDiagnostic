@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>诊断报告 | 托福阅读冲刺</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white; }
+            #main-card { box-shadow: none; border: 1px solid #eee; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen py-8 px-4 text-slate-800 font-sans">
+
+    <div id="main-card" class="max-w-5xl mx-auto space-y-8">
+        
+        <!-- Module 1: Score Overview Card -->
+        <div class="bg-gradient-to-br from-sky-500 to-blue-600 rounded-3xl shadow-xl overflow-hidden text-white relative p-8 md:p-12 text-center transform hover:scale-[1.01] transition-transform duration-300">
+            <!-- Decorative Elements -->
+            <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl translate-x-1/3 -translate-y-1/3"></div>
+            <div class="absolute bottom-0 left-0 w-40 h-40 bg-blue-300 opacity-20 rounded-full blur-2xl -translate-x-1/4 translate-y-1/4"></div>
+
+            <h1 class="text-2xl font-medium text-blue-50 mb-4 tracking-wide">托福阅读诊断报告</h1>
+            
+            <div class="mb-2">
+                <span class="inline-block py-1 px-3 rounded-full bg-white/20 text-xs font-bold uppercase tracking-wider backdrop-blur-sm">预测分数区间</span>
+            </div>
+            <div id="score-range" class="text-7xl md:text-9xl font-extrabold tracking-tighter mb-6 drop-shadow-lg">
+                --
+            </div>
+            
+            <div class="inline-flex items-center bg-white/10 backdrop-blur-md rounded-2xl px-8 py-3 border border-white/20 shadow-inner">
+                <div class="flex items-center mr-8">
+                    <span class="text-2xl mr-2">🎯</span>
+                    <div class="text-left">
+                        <div class="text-xs text-blue-100 uppercase font-bold">正确率</div>
+                        <div id="correct-count" class="text-xl font-bold">--/--</div>
+                    </div>
+                </div>
+                <div class="w-px h-10 bg-white/20 mr-8"></div>
+                <div class="flex items-center">
+                    <span class="text-2xl mr-2">⏱️</span>
+                    <div class="text-left">
+                        <div class="text-xs text-blue-100 uppercase font-bold">用时</div>
+                        <div id="time-used" class="text-xl font-bold">--:--</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 2: Detailed Analysis Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Card 1: Accuracy Bar Chart -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 flex flex-col">
+                <h3 class="font-bold text-slate-700 mb-6 flex items-center">
+                    <span class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center mr-3">📊</span>
+                    题型正确率
+                </h3>
+                <div id="accuracy-chart" class="space-y-4 flex-grow">
+                    <!-- Bars injected by JS -->
+                    <div class="animate-pulse space-y-3">
+                        <div class="h-4 bg-slate-100 rounded w-full"></div>
+                        <div class="h-4 bg-slate-100 rounded w-5/6"></div>
+                        <div class="h-4 bg-slate-100 rounded w-4/6"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Time Distribution Pie Chart -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 flex flex-col">
+                <h3 class="font-bold text-slate-700 mb-6 flex items-center">
+                    <span class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center mr-3">🥧</span>
+                    答题时间分布
+                </h3>
+                <div class="flex-grow flex flex-col items-center justify-center">
+                    <div id="time-pie-chart" class="w-40 h-40 rounded-full bg-slate-100 relative mb-6" style="background: conic-gradient(#3b82f6 0% 70%, #e2e8f0 70% 100%);">
+                        <div class="absolute inset-0 m-auto w-24 h-24 bg-white rounded-full flex items-center justify-center flex-col shadow-inner">
+                            <span class="text-xs text-slate-400">总用时</span>
+                            <span id="pie-total-time" class="font-bold text-slate-800">--:--</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 text-xs text-slate-600">
+                        <div class="flex items-center"><span class="w-3 h-3 bg-blue-500 rounded-full mr-1"></span> 答题用时</div>
+                        <div class="flex items-center"><span class="w-3 h-3 bg-slate-200 rounded-full mr-1"></span> 剩余时间</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 & 4: Weaknesses & Strengths (Stacked in one column on LG) -->
+            <div class="space-y-6">
+                <!-- Weaknesses -->
+                <div class="bg-white rounded-2xl shadow-sm border border-red-100 p-6">
+                    <h3 class="font-bold text-slate-900 mb-4 flex items-center">
+                        <span class="text-xl mr-2">⚠️</span> 薄弱点清单
+                    </h3>
+                    <ul id="weak-points-list" class="space-y-2 text-sm text-slate-600">
+                        <!-- Injected JS -->
+                        <li class="flex items-start"><span class="text-red-500 mr-2">•</span> 暂无数据</li>
+                    </ul>
+                </div>
+
+                <!-- Strengths -->
+                <div class="bg-white rounded-2xl shadow-sm border border-green-100 p-6">
+                    <h3 class="font-bold text-slate-900 mb-4 flex items-center">
+                        <span class="text-xl mr-2">✅</span> 优势项目
+                    </h3>
+                    <ul id="strong-points-list" class="space-y-2 text-sm text-slate-600">
+                        <!-- Injected JS -->
+                        <li class="flex items-start"><span class="text-green-500 mr-2">•</span> 暂无数据</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 3: Sprint Plan -->
+        <div class="space-y-4">
+            <h2 class="text-xl font-bold text-slate-800 px-2">冲刺计划</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Plan A -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center text-2xl mb-4">📅</div>
+                    <h3 class="font-bold text-slate-900 mb-2">未来3天冲刺重点</h3>
+                    <p id="plan-focus" class="text-sm text-slate-600 leading-relaxed">
+                        加载中...
+                    </p>
+                </div>
+                <!-- Plan B -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-2xl mb-4">📚</div>
+                    <h3 class="font-bold text-slate-900 mb-2">推荐练习材料</h3>
+                    <p id="plan-material" class="text-sm text-slate-600 leading-relaxed">
+                        加载中...
+                    </p>
+                </div>
+                <!-- Plan C -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center text-2xl mb-4">💡</div>
+                    <h3 class="font-bold text-slate-900 mb-2">考场时间分配建议</h3>
+                    <p id="plan-time" class="text-sm text-slate-600 leading-relaxed">
+                        加载中...
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 4: Action Buttons -->
+        <div class="flex flex-col sm:flex-row justify-center gap-4 pt-8 pb-12 border-t border-slate-200 no-print">
+            <button onclick="window.print()" class="px-8 py-4 rounded-xl bg-orange-500 text-white font-bold shadow-lg hover:bg-orange-600 hover:shadow-orange-500/30 transition-all flex items-center justify-center gap-2">
+                <span>🖨️</span> 打印完整报告
+            </button>
+            <button id="save-btn" class="px-8 py-4 rounded-xl bg-blue-600 text-white font-bold shadow-lg hover:bg-blue-700 hover:shadow-blue-600/30 transition-all flex items-center justify-center gap-2">
+                <span>💾</span> 保存我的计划
+            </button>
+            <a href="index.html" class="px-8 py-4 rounded-xl border-2 border-slate-200 text-slate-600 font-bold hover:bg-slate-50 hover:border-slate-300 transition-all flex items-center justify-center gap-2">
+                <span>🔄</span> 重新测试
+            </a>
+        </div>
+        
+        <!-- Hidden History Section (Preserved for logic compatibility) -->
+        <div id="history-section" class="hidden"></div>
+
+    </div>
+
+    <script src="js/result.js"></script>
+</body>
+</html>
